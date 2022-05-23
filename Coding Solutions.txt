@@ -1,0 +1,291 @@
+Question 1:
+
+package Code;
+import java.util.Scanner;
+
+public class Qns1 {
+
+	public static Integer SplitTheNumber(String p) {
+
+		String[] words = p.split(" ");
+		Integer result = 0;
+ 
+		if (words[1].contains("+")) {
+			
+			String[] splittedOnBases = words[1].split("\\+"); 
+
+			result = Integer.parseInt(words[0].substring(0, splittedOnBases[0].length()))
+					+ Integer.parseInt(words[0].substring(splittedOnBases[0].length()));
+			return result;
+		}
+
+		if (words[1].contains("-")) {
+			String[] splittedOnBases = words[1].split("-");
+
+			result = Integer.parseInt(words[0].substring(0, splittedOnBases[0].length()))
+					- Integer.parseInt(words[0].substring(splittedOnBases[0].length()));
+			return result;
+
+		}
+
+		return -1;
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		Scanner S = new Scanner(System.in);
+		System.out.print("Enter the data : ");
+		String pattern = S.nextLine();
+		
+		System.out.println("Output is : "+SplitTheNumber(pattern));
+
+	}
+
+}
+
+=========================================================================================================================
+
+Question 2:
+
+package Code;
+class Qns2{
+    void findFourElements(int A[], int n, int X)
+    {
+        for (int i = 0; i < n - 3; i++)
+        {
+            for (int j = i + 1; j < n - 2; j++)
+            {
+                for (int k = j + 1; k < n - 1; k++)
+                {
+                    for (int l = k + 1; l < n; l++)
+                    {
+                        if (A[i] + A[j] + A[k] + A[l] == X)
+                            System.out.print(A[i]+" "+A[j]+" "+A[k]
+                                                                 +" "+A[l]);
+                    }
+                }
+            }
+        }
+    }
+ 
+    
+    public static void main(String[] args)
+    {
+        Qns2 findfour = new Qns2();
+        int A[] = {2,3,1,0,-4,-1};
+        int n = A.length;
+        int X = 0;
+        findfour.findFourElements(A, n, X);
+    }
+}
+
+=======================================================================================================================
+
+Question 3:
+
+package Code;
+import java.text.DecimalFormat;
+import java.util.Scanner;
+
+public class Qns3 {
+	private static final String[] tens = { "", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty",
+			"Seventy", "Eighty", "Ninety" };
+
+	private static final String[] num = { "", "One", "Two", "Three", "Four", "Five", "Six", "Seven",
+			"Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+			"Seventeen", "Eighteen", "Nineteen" };
+
+	private static String convertSmallerThanThousand(int number) {
+		String soFar;
+
+		if (number % 100 < 20) {
+			soFar = num[number % 100];
+			number /= 100;
+		} else {
+			soFar = num[number % 10];
+			number /= 10;
+
+			soFar = tens[number % 10] + soFar;
+			number /= 10;
+		}
+		if (number == 0)
+			return soFar;
+		return num[number] + "Hundred" + soFar;
+	}
+
+	public static String convert(long number) {
+		if (number == 0) {
+			return "zero";
+		}
+
+		String snumber = Long.toString(number);
+
+		
+		String mask = "000000000000";
+		DecimalFormat df = new DecimalFormat(mask);
+		snumber = df.format(number);
+
+		
+		int billions = Integer.parseInt(snumber.substring(0, 3));
+	
+		int millions = Integer.parseInt(snumber.substring(3, 6));
+	
+		int hundredThousands = Integer.parseInt(snumber.substring(6, 9));
+	
+		int thousands = Integer.parseInt(snumber.substring(9, 12));
+
+		String tradBillions;
+		switch (billions) {
+		case 0:
+			tradBillions = "";
+			break;
+		case 1:
+			tradBillions = convertSmallerThanThousand(billions) + "Billion";
+			break;
+		default:
+			tradBillions = convertSmallerThanThousand(billions) + "Billion";
+		}
+		String result = tradBillions;
+
+		String tradMillions;
+		switch (millions) {
+		case 0:
+			tradMillions = "";
+			break;
+		case 1:
+			tradMillions = convertSmallerThanThousand(millions) + "Million";
+			break;
+		default:
+			tradMillions = convertSmallerThanThousand(millions) + "Million";
+		}
+		result = result + tradMillions;
+
+		String tradHundredThousands;
+		switch (hundredThousands) {
+		case 0:
+			tradHundredThousands = "";
+			break;
+		case 1:
+			tradHundredThousands = "oneThousand";
+			break;
+		default:
+			tradHundredThousands = convertSmallerThanThousand(hundredThousands) + "Thousand";
+		}
+		result = result + tradHundredThousands;
+
+		String tradThousand;
+		tradThousand = convertSmallerThanThousand(thousands);
+		result = result + tradThousand;
+		return result.replaceAll("^\\s+", "").replaceAll("\\b\\s{2,}\\b", " ");
+	}
+
+	public static void main(String[] args) {
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.print("Enter Number/ Amount : ");
+		String result = convert(scan.nextLong()) + "Dollar";
+		System.out.println(result);
+
+	}
+
+}
+
+
+======================================================================================================================
+
+Question 4:
+
+package Code;
+public class Qns4 {
+	public static void main(String args[]) {
+		int num = 2;
+		int count = 0;
+		long sum = 0;
+		while(count < 1000) {
+			if(isPrimeNumber(num)) {
+				sum += num;
+				count++;
+			}
+			num++;
+		}
+		System.out.println(sum);
+	}
+	private static boolean isPrimeNumber(int num) {
+		for (int i=2; i<=num/2; i++) {
+			if(num % i == 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+}
+
+=======================================================================================================================
+
+Question 5:
+
+package Code;
+import java.util.Scanner;
+
+public class Qns5 {
+
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter value of x-cordinate for point 1");
+		int x1=sc.nextInt();
+		
+		System.out.println("Enter value of y-cordinate for point 1");
+		int y1=sc.nextInt();
+		
+		System.out.println("Enter value of x-cordinate for point 2");
+		int x2=sc.nextInt();
+		
+		System.out.println("Enter value of x-cordinate for point 1");
+		int y2=sc.nextInt();
+		
+		int distance=(int) Math.sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+		
+		System.out.println("Distance between the two points is:"+distance);
+	}
+
+}
+
+
+=============================================================================================================
+
+Question 6:
+
+package Code;
+public class Qns6 {  
+		 static void convertString(StringBuffer str)
+		    {
+		        int ln = str.length();
+		 
+		        for (int i = 0; i < ln; i++) {
+		            Character c = str.charAt(i);
+		            if (Character.isLowerCase(c))
+		                str.replace(i, i + 1,
+		                            Character.toUpperCase(c) + "");
+		            else
+		                str.replace(i, i + 1,
+		                            Character.toLowerCase(c) + "");
+		        }
+		    }
+		 
+		    public static void main(String[] args)
+		    {
+		        StringBuffer str1= new StringBuffer("Hello world!");
+		        StringBuffer str2= new StringBuffer("JavaScript language 1.8");
+		        StringBuffer str3= new StringBuffer("A letter");
+		        convertString(str1);
+		        System.out.println(str1);
+		        convertString(str2);
+		        System.out.println(str2);
+		        convertString(str3);
+		        System.out.println(str3);
+		    }
+		
+    }  
+
+=================================================================================================================
